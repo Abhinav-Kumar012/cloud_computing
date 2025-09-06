@@ -1,4 +1,4 @@
 # Cloud computing course stuff
 ## grpc assignments
-[todo app](todo/)
+[todo app](todo/) \\
 [chat](chat/)
