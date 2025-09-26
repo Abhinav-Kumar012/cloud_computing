@@ -1,0 +1,83 @@
+minikube start --driver=docker
+
+
+#use minikubes docker-env
+eval $(minikube docker-env)
+
+#build images
+
+
+docker build -t customer-service ./vehicle-assignment-app/customer_service
+docker build -t transport-service ./vehicle-assignment-app/transport_service
+
+
+#start the deployment
+kubectl apply -f vehicle-assignment-app/k8s/customer-deployment.yaml
+kubectl apply -f vehicle-assignment-app/k8s/customer-service.yaml
+kubectl apply -f vehicle-assignment-app/k8s/transport-deployment.yaml
+kubectl apply -f vehicle-assignment-app/k8s/transport-service.yaml
+
+#for deleting use
+#kubectl delete -f 
+kubectl delete -f vehicle-assignment-app/k8s/customer-deployment.yaml
+kubectl delete -f vehicle-assignment-app/k8s/customer-service.yaml
+kubectl delete -f vehicle-assignment-app/k8s/transport-deployment.yaml
+kubectl delete -f vehicle-assignment-app/k8s/transport-service.yaml
+
+#check if everything is fine
+kubectl get pods
+kubectl get services
+
+#get the service URLs
+
+minikube service customer-service
+minikube service transport-service
+
+#use this service URLs in your curl commands to perform actions
+
+#to describe the pods
+kubectl describe pod
+
+#list pods
+kubectl get pods
+
+
+
+
+
+#kubernetes install
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version --client
+
+#minikube
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+minikube version #to checck
+
+#start minikube
+minikube start --driver=docker
+
+minikube status
+
+
+
+
+
+
+
+
+
+#some errata
+#Use NodePort instead of ClusterIP
+#modify the service Yaml file to put the type:NodePort line
+spec:
+  type: NodePort
+  selector:
+
+#modify the deployment Yaml to not go to a docker registry. Use minikubes docker registry
+#add the following line
+
+imagePullPolicy: IfNotPresent

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transport-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transport
+  template:
+    metadata:
+      labels:
+        app: transport
+    spec:
+      containers:
+      - name: transport
+        image: transport-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5001
