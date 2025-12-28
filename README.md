@@ -1,5 +1,8 @@
 # Cloud computing course stuff
 
+## class slides
+[slides](slides/)
+
 ## setup
 ```sh
 python3 -m venv .venv
